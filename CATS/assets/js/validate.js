@@ -102,78 +102,9 @@ function CreateGrid(elementId, data, columns, options, tabid) {
     });
 
 
-    /**
-     * Description - On context menu event select
-     */
+   
 
-    jQuery("#contextMenu").click(function (e) {
-        if (jQuery(e.target).is("li")) {
-            e.preventDefault();
-            //console.log(jQuery(e.target).attr("data"));
-            switch (jQuery(e.target).attr("data")) {
-                case "ADD":
-                    // code block
-                    break;
-                case "DELETE":
-                    var griddata = data;
-                    var event = "DELETE";
-                    var current_row = getSelectedRow();
-
-                    griddata.splice(current_row, 1);
-                    var row = current_row;
-                    while (row < griddata.length) {
-                        grid.invalidateRow(row);
-                        row++;
-                    }
-                    grid.updateRowCount();
-                    grid.render();
-                    grid.scrollRowIntoView(current_row - 1);
-                    //ajax call to post
-
-                    contextmenuajaxcall(current_row, event, tabid);
-                    // jQuery("#overlay").hide();
-                    addAlert("alert alert-info", "", "Test step " + (current_row + 1) + " deleted successfully");
-
-                    break;
-
-
-                case "REFRESH":
-                    baseurl = jQuery('input[title="baseURL"]').val();
-                    PrjectName = getPrjectName();
-                    jQuery("#overlay").show();
-                    var dataString = "tabnumber=" + gettabid() +
-                        "&EnterURL=" + document.getElementById("EnterURL").value ;
-                    jQuery.getJSON(baseurl + renderurl + "?" + dataString, {tabnumber: tabid}, function (data) {
-                        grid = CreateSlick(data, columns, options, tabid);
-                    });
-                    jQuery("#overlay").hide();
-                    addAlert("alert alert-info", "", "Test case refreshed!");
-                    break;
-
-            }
-        }
-    });
-
-    /**
-     * multi select row
-     * @type {boolean}
-     */
-
-    // grid.onClick.subscribe(function (e,args) {
-    //     //     if(selectActiveRow){
-    //     //         if($.inArray(args.row, selectedRows) === -1){
-    //     //             selectedRows = [];
-    //     //             selectedRows.push(args.row)
-    //     //         }else{
-    //     //             selectedRows = [];
-    //     //         }
-    //     //     }else{
-    //     //         ($.inArray(args.row, selectedRows) === -1) ? selectedRows.push(args.row) : selectedRows.splice(selectedRows.indexOf(args.row), 1);
-    //     //     }
-    //     //     grid.setSelectedRows(selectedRows);
-    //     //
-    //     // });
-
+   
 
     grid.onClick.subscribe(function (e, args) {
         jQuery('#delete').prop('disabled', false);
@@ -209,7 +140,7 @@ function CreateGrid(elementId, data, columns, options, tabid) {
         if (e.keyCode === 13 || e.keyCode === 9) {
             if (grid.getColumns()[args.cell].name === "User Value") {
                 //console.log("on keydown " + grid.getColumns()[args.cell].name);
-                onuservaluedatachange(e, args);
+                
             }
 
         }
@@ -222,93 +153,14 @@ function CreateGrid(elementId, data, columns, options, tabid) {
         // var value = data[args.row][grid.getColumns()[args.cell].field];
         if (grid.getColumns()[args.cell].name === "User Value") {
             //console.log("on cell change " + grid.getColumns()[args.cell].name);
-            onuservaluedatachange(e, args);
+            
         } else {
             //console.log("on cell change " + grid.getColumns()[args.cell].name);
-            onothercelldatachange(e, args);
+          
         }
     });
 
-    /**
-     * Description - Update grid row reorder function
-     * @param rowto
-     * @param rowfrom
-     */
-    function rowreorderupdateajax(rowto, rowfrom) {
-        path = getPath();
-        testcasename = gettestcasename();
-        TestCaseId = gettestcaseId();
-        tabid = gettabid();
-        PrjectName = getPrjectName();
-        var defaultenteredurl = document.getElementById("EnterURL").value;
-        //baseurl = jQuery('input[title="baseURL"]').val();
-        var dataString =
-            // "useraction="+ "gridrowupdate"
-            "rowto=" + rowto +
-            "&rowfrom=" + rowfrom +
-            "&tabnumber=" + gettabid() +
-            "&path=" + Path;
-        jQuery('.overlay').show();
-
-        // var value = data[args.row][grid.getColumns()[args.cell].field];
-        // if (grid.getColumns()[args.cell].name === "User Value") {
-        //     value = jQuery("#Uservalue" + tabid + "" + args.row + "" + args.cell).val();
-        // }
-
-        $.ajax({
-            type: "PUT",
-            url: baseurl + gridservleturl + "?" + dataString,
-            dataType: "text",
-            content: "text/plain",
-
-            success: function (callbackresponse) {
-                jQuery("#codegenie").html(callbackresponse);
-                var block = document.getElementById('codegenie');
-                Prism.highlightElement(block);
-                jQuery("#EnterURL").val(defaultenteredurl);
-                jQuery.getJSON(baseurl + renderurl + "?" + dataString, {tabnumber: tabID }, function (data) {
-
-                    // grid = CreateSlick(data, columns, options, tabID);
-                    attachAutoResizeDataGrid(grid, "myGrid" + tabID, "gridContainer");
-                    grid.setData(data);
-                    grid.render();
-                });
-
-                jQuery('.overlay').hide();
-                addAlert("alert alert-success", "Yey!", "Test Case is successfully Updated, Click on Save button.");
-            }
-            ,
-            error: function () {
-                jQuery("#output").text("Abort Failed");
-                document.getElementById("CreateRepo").disabled = true;
-                document.getElementById("compile").disabled = true;
-
-                //add alert message on failure
-                addAlert("alert alert-danger", "Oops!", "Something went wrong");
-            },
-        }).done(function () {
-
-            //     grid.resetActiveCell();
-            //     grid.setData(data);
-            //     grid.invalidateAllRows();
-            //     grid.updateRowCount();
-            // //     grid.render();
-
-
-
-        });
-    }
-
-
-
-    /**
-     * Description - Function call on change in uservalue data
-     * @param e
-     * @param args
-     */
-    
-
-
+ 
 
 /**
  * Description - To dynamically create slickgrid based on tabid
