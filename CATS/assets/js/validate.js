@@ -180,6 +180,30 @@ function resizeToFitBrowserWindow(grid, gridId, gridContainerId) {
     }
 }
 
+/**
+ * Description - Calculate resize window dimension
+ * @param gridId
+ * @param gridContainerId
+ * @returns {{height: number, width: jQuery}}
+ */
+function calculateGridNewDimensions(gridId, gridContainerId) {
+    var availableWidth = jQuery('#' + gridContainerId).width();
+    // var availableHeight = jQuery('#' + gridContainerId).height();
+    var newHeight = 285;
+    // var newHeight = availableHeight;
+    var newWidth = availableWidth;
+
+    if (newHeight < DATAGRID_MIN_HEIGHT) {
+        newHeight = DATAGRID_MIN_HEIGHT;
+    }
+    if (newWidth < DATAGRID_MIN_WIDTH) {
+        newWidth = DATAGRID_MIN_WIDTH;
+    }
+    return {
+        height: newHeight,
+        width: newWidth
+    };
+}
 function attachAutoResizeDataGrid(grid, gridId, gridContainerId) {
     var gridDomElm = jQuery('#' + gridId);
     if (!gridDomElm || typeof gridDomElm.offset() === "undefined") {
