@@ -171,5 +171,37 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
+ var grid;
 
+        var RowNumberFormatter = function (row, cell, value, columnDef, dataContext) {
+            return row + 1;
+        };
+
+        var checkboxSelector = new Slick.CheckboxSelectColumn({
+            // cssClass: "slick-cell-checkboxsel"
+        });
+
+ var options = {
+            // enableColumnReorder: false,
+            editable: true,
+            enableAddRow: true,
+            enableCellNavigation: true,
+            asyncEditorLoading: false,
+            autoEdit: false,
+            cellHighlightCssClass: "changed",
+            // autoHeight: true,
+            resizable:true,
+            autoWidth: true,
+            // autoExpandColumns: false,
+            forceFitColumns: true,
+            syncColumnCellResize: true
+        };
+   data = [];
+        grid = new Slick.Grid("#myGrid1", data, columns, options);
+        var columnpicker = new Slick.Controls.ColumnPicker(columns, grid, options);
+        grid.registerPlugin(checkboxSelector);
+        grid.setSelectionModel(new Slick.RowSelectionModel({selectActiveRow: false}));
+        grid.registerPlugin(new Slick.AutoTooltips({enableForHeaderCells: true}));
+        grid.invalidateAllRows();
+        grid.render();
 </html>
