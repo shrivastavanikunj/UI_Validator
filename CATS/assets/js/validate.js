@@ -162,6 +162,20 @@ function CreateGrid(elementId, data, columns, options, tabid) {
 
  
 
+function attachAutoResizeDataGrid(grid, gridId, gridContainerId) {
+    var gridDomElm = jQuery('#' + gridId);
+    if (!gridDomElm || typeof gridDomElm.offset() === "undefined") {
+        return null;
+    }
+    resizeToFitBrowserWindow(grid, gridId, gridContainerId);
+
+    jQuery(window).on("resize", function () {
+        // for some yet unknown reason, calling the resize twice removes any stuttering/flickering when changing the height and makes it much smoother
+        resizeToFitBrowserWindow(grid, gridId, gridContainerId);
+        resizeToFitBrowserWindow(grid, gridId, gridContainerId);
+    });
+
+}
 /**
  * Description - To dynamically create slickgrid based on tabid
  * @param data
