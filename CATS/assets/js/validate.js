@@ -161,6 +161,24 @@ function CreateGrid(elementId, data, columns, options, tabid) {
     });
 
  
+/**
+ * Description - Create height and width for grid
+ * @param grid
+ * @param gridId
+ * @param gridContainerId
+ */
+function resizeToFitBrowserWindow(grid, gridId, gridContainerId) {
+
+    var newSizes = calculateGridNewDimensions(gridId, gridContainerId);
+    if (newSizes) {
+        jQuery('#' + gridId).height(newSizes.height);
+        jQuery('#' + gridId).width(newSizes.width);
+
+        if (new RegExp('MSIE [6-8]').exec(navigator.userAgent) === null && grid) {
+            grid.resizeCanvas();
+        }
+    }
+}
 
 function attachAutoResizeDataGrid(grid, gridId, gridContainerId) {
     var gridDomElm = jQuery('#' + gridId);
